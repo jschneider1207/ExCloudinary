@@ -1,0 +1,265 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.11.3">
+    <title>ExCloudinary – ex_cloudinary v0.0.1</title>
+    <link rel="stylesheet" href="dist/app-ddd9717ad9.css" />
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body data-type="modules">
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+  <button class="sidebar-toggle">
+    <i class="icon-menu"></i>
+  </button>
+
+
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        ex_cloudinary
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.1
+      </h2>
+    </div>
+
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+
+
+
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">ex_cloudinary v0.0.1</small>
+        ExCloudinary
+
+
+      </h1>
+
+
+
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:headers/0">headers()</a>
+  </div>
+
+</div>
+
+  </div>
+
+
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#upload_image/2">upload_image(path, opts \\ [])</a>
+  </div>
+
+    <div class="summary-synopsis"><p>Upload an image to your Cloudinary library</p>
+</div>
+
+</div>
+
+  </div>
+
+
+
+
+
+
+        </section>
+
+
+
+        <section id="types" class="types details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <i class="icon-link"></i>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div id="t:headers/0" class="type-detail">
+  <pre><code class="elixir"><a href="#t:headers/0">headers</a> :: [{binary, binary}]</code></pre>
+
+</div>
+
+          </div>
+        </section>
+
+
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>          
+<div class="detail" id="upload_image/2">
+  <div class="detail-header">
+    <a href="#upload_image/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">upload_image(path, opts \\ [])</span>
+
+  </div>
+
+  <section class="docstring">
+    <p>Upload an image to your Cloudinary library.</p>
+<h2>Examples</h2>
+<pre><code class="elixir">ExCloudinary.upload_image(&quot;/path/to/image.jpeg&quot;)
+#=&gt; response
+
+ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
+#=&gt; response</code></pre>
+<h2>Parameters</h2>
+<ul>
+<li><code class="inline">file</code> - Either the local path to an image or the http url of a public image resource.
+</li>
+<li><code class="inline">opts</code> - Keyword list of upload options (see below).
+</li>
+</ul>
+<h2>Options</h2>
+<ul>
+<li><code class="inline">public_id</code>                 - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified. The public ID may contain a full path including folders separated by ‘/‘.
+</li>
+<li><code class="inline">resource_type</code>             - Valid values: ‘image’, ‘raw’ and ‘auto’. Default: ‘image’.
+</li>
+<li><code class="inline">type</code>                      - Allows uploading images as ‘private’ or ‘authenticated’. Valid values: ‘upload’, ‘private’ and ‘authenticated’. Default: ‘upload’.
+</li>
+<li><code class="inline">tags</code>                      - A comma-separated list of tag names to assign to the uploaded image for later group reference.
+</li>
+<li><code class="inline">context</code>                   - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: “alt=My image|caption=Profile Photo”.
+</li>
+<li><code class="inline">transformation</code>            - A transformation to run on the uploaded image before saving it in the cloud. For example: limit the dimension of the uploaded image to 512x512 pixels.
+</li>
+<li><code class="inline">format</code>                    - An optional format to convert the uploaded image to before saving in the cloud. For example: ‘jpg’.
+</li>
+<li><code class="inline">allowed_formats</code>           - A comma-separated list of file formats that are allowed for uploading. The default is any supported image kind and any type of raw file. Files of other types will be rejected. The formats can be image types or raw file extensions. For example: ‘jpg,gif,doc’.
+</li>
+<li><code class="inline">eager</code>                     - A list of transformations to create for the uploaded image during the upload process, instead of lazily creating them when being accessed by your site’s visitors. The transformation strings are separated by ‘|’.
+</li>
+<li><code class="inline">eager_async</code>               - (boolean) Whether to generate the eager transformations asynchronously in the background after the upload request is completed rather than online as part of the upload call. Default: false.
+</li>
+<li><code class="inline">proxy</code>                     - Tells Cloudinary to upload images from remote URLs through the given proxy. Format: ‘<a href="http://hostname:post">http://hostname:post</a>’.
+</li>
+<li><code class="inline">notification_url</code>          - An HTTP URL to send notification to (a webhook) when the upload is completed or any requested asynchronous action is completed.
+</li>
+<li><code class="inline">eager_notification_url</code>    - An HTTP URL to send notification to (a webhook) when the generation of eager transformations is completed.
+</li>
+<li><code class="inline">backup</code>                    - (boolean) Tell Cloudinary whether to backup the uploaded image. Overrides the default backup settings of your account.
+</li>
+<li><code class="inline">return_delete_token</code>       - (boolean) Whether to return a deletion token in the upload response. The token can be used to delete the uploaded image within 10 minutes using an unauthenticated API request.
+</li>
+<li><code class="inline">faces</code>                     - (boolean) Whether to retrieve a list of coordinates of automatically detected faces in the uploaded photo. Default: false.
+</li>
+<li><code class="inline">exif</code>                      -  (boolean)Whether to retrieve the Exif metadata of the uploaded photo. Default: false.
+</li>
+<li><code class="inline">colors</code>                    -  (boolean) Whether to retrieve predominant colors &amp; color histogram of the uploaded image. Default: false.
+</li>
+<li><code class="inline">image_metadata</code>            - (boolean) Whether to retrieve IPTC and detailed Exif metadata of the uploaded photo. Default: false.
+</li>
+<li><code class="inline">phash</code>                     - (boolean) Whether to return the perceptual hash (pHash) on the uploaded image. The pHash acts as a fingerprint that allows checking image similarity. Default: false.
+</li>
+<li><code class="inline">invalidate</code>                - (boolean) Whether to invalidate CDN cache copies of a previously uploaded image that shares the same public ID. Default: false.
+</li>
+<li><code class="inline">use_filename</code>              - (boolean) Whether to use the original file name of the uploaded image if available for the public ID. The file name is normalized and random characters are appended to ensure uniqueness. Default: false.
+</li>
+<li><code class="inline">unique_filename</code>           - (boolean) Only relevant if use_filename is true. When set to false, should not add random characters at the end of the filename that guarantee its uniqueness. Default: true.
+</li>
+<li><code class="inline">folder</code>                    - An optional folder name where the uploaded resource will be stored. The public ID contains the full path of the uploaded resource, including the folder name.
+</li>
+<li><code class="inline">overwrite</code>                 - (boolean) Whether to overwrite existing resources with the same public ID. When set to false, return immediately if a resource with the same public ID was found. Default: true.
+</li>
+<li><code class="inline">discard_original_filename</code> - (boolean) Whether to discard the name of the original uploaded file. Relevant when delivering images as attachments (setting the ‘flags’ transformation parameter to ‘attachment’). Default: false.
+</li>
+<li><code class="inline">face_coordinates</code>          - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the face. The coordinates are comma separated while faces are concatenated with ‘|’. For example: “10,20,150,130|213,345,82,61”.
+</li>
+<li><code class="inline">custom_coordinates</code>        - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the region. For example: “85,120,220,310”.
+</li>
+<li><code class="inline">raw_convert</code>               - Set to ‘aspose’ to automatically convert Office documents to PDF files and other image formats using the Aspose Document Conversion add-on.
+</li>
+<li><code class="inline">auto_tagging</code>              - (0.0..1.0) Whether to assign tags to an image according to detected scene categories with confidence score higher than the given value.
+</li>
+<li><code class="inline">background_removal</code>        - Set to ‘remove_the_background’ to automatically clear the background of an uploaded photo using the Remove-The-Background Editing add-on.
+</li>
+<li><code class="inline">moderation</code>                - Set to ‘manual’ to add the uploaded image to a queue of pending moderation images. Set to ‘webpurify’ to automatically moderate the uploaded image using the WebPurify Image Moderation add-on.
+</li>
+<li><code class="inline">upload_preset</code>             - Name of an upload preset that you defined for your Cloudinary account. An upload preset consists of upload parameters centrally managed using the Admin API or from the settings page of the management console. An upload preset may be marked as ‘unsigned’, which allows unsigned uploading directly from the browser and restrict the directly allowed parameters to: public_id, folder, tags, context, face_coordinates and custom_coordinates.
+</li>
+</ul>
+
+  </section>
+</div>
+
+        </section>
+
+
+
+
+
+        <footer class="footer">
+      <p>
+        <span class="line">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.3),
+        </span>
+        <span class="line">
+          designed by
+          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+      </p>
+      <button class="night-mode-toggle" />
+    </footer>
+  </div>
+</section>
+</div>
+  <script src="dist/app-6d2e071366.js"></script>
+  </body>
+</html>

@@ -68,6 +68,13 @@ defmodule ExCloudinary do
   def upload_image(path, opts \\ []) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
+    Client.post("image/upload", body)
+  end
+
+  @doc "See `&upload_image/2`"
+  def upload_image!(path, opts \\ []) do
+    body = Keyword.take(opts, @upload_image_opts)
+            |> Keyword.put(:file, path)
     Client.post!("image/upload", body)
   end
 
@@ -85,8 +92,15 @@ defmodule ExCloudinary do
     * `type` - (optional) The type of the image you want to delete. Default: `upload`
   """
   def delete_image(public_id, type \\ "upload") do
+    Client.post("image/destroy", [public_id: public_id, type: type])
+  end
+
+  @doc "See `delete_image/2`"
+  def delete_image!(public_id, type \\ "upload") do
     Client.post!("image/destroy", [public_id: public_id, type: type])
   end
+
+
 
   @doc """
   Rename the public ID of an image in your Cloudinary library.
@@ -111,6 +125,13 @@ defmodule ExCloudinary do
   def rename_image(from_public_id, to_public_id, opts \\ []) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
+    Client.post("image/rename", body)
+  end
+
+  @doc "See `rename_image/3`"
+  def rename_image!(from_public_id, to_public_id, opts \\ []) do
+    body = Keyword.take(opts, [:type, :overwrite])
+            |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
     Client.post!("image/rename", body)
   end
 
@@ -129,9 +150,18 @@ defmodule ExCloudinary do
   """
   def upload_raw(path, public_id \\ nil)
   def upload_raw(path, nil) do
-    Client.post!("raw/upload", [file: path])
+    Client.post("raw/upload", [file: path])
   end
   def upload_raw(path, public_id) do
+    Client.post("raw/upload", [file: path, public_id: public_id])
+  end
+
+  @doc "See `upload_raw/2`"
+  def upload_raw!(path, public_id \\ nil)
+  def upload_raw!(path, nil) do
+    Client.post!("raw/upload", [file: path])
+  end
+  def upload_raw!(path, public_id) do
     Client.post!("raw/upload", [file: path, public_id: public_id])
   end
 
@@ -161,6 +191,13 @@ defmodule ExCloudinary do
     * `text_decoration` - Optionally add an `underline` to the text. Default: `none`.
   """
   def generate_text_layer(text, opts \\ []) do
+    body = Keyword.take(opts, @generate_text_layer_opts)
+            |> Keyword.put(:text, text)
+    Client.post("image/text", body)
+  end
+
+  @doc "See `generate_text_layer/2`"
+  def generate_text_layer!(text, opts \\ []) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     Client.post!("image/text", body)

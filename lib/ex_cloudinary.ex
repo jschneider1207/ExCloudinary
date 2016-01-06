@@ -1,7 +1,7 @@
 defmodule ExCloudinary do
   use HTTPoison.Base
   @base_url ~S(https://api.cloudinary.com/v1_1)
-  @signed_params ~w(callback eager format from_public_id public_id tags timestamp to_public_id transformation type)a
+  @signed_params ~w(callback eager format from_public_id public_id tags timestamp to_public_id text transformation type)a
   @upload_image_opts ~w"""
     public_id resource_type type tags context transformation format allowed_formats
     eager eager_async proxy notification_url eager_notification_url backup
@@ -10,6 +10,7 @@ defmodule ExCloudinary do
     face_coordinates custom_coordinates raw_convert auto_tagging background_removal
     moderation upload_preset
     """a
+  @generate_text_layer_opts ~w(public_id font_family font_size font_color font_weight font_style background opacity text_decoration)a
 
   @doc """
   Upload an image to your Cloudinary library.
@@ -45,8 +46,8 @@ defmodule ExCloudinary do
     * `backup`                    - (boolean) Tell Cloudinary whether to backup the uploaded image. Overrides the default backup settings of your account.
     * `return_delete_token`       - (boolean) Whether to return a deletion token in the upload response. The token can be used to delete the uploaded image within 10 minutes using an unauthenticated API request.
     * `faces`                     - (boolean) Whether to retrieve a list of coordinates of automatically detected faces in the uploaded photo. Default: false.
-    * `exif`                      -  (boolean)Whether to retrieve the Exif metadata of the uploaded photo. Default: false.
-    * `colors`                    -  (boolean) Whether to retrieve predominant colors & color histogram of the uploaded image. Default: false.
+    * `exif`                      - (boolean)Whether to retrieve the Exif metadata of the uploaded photo. Default: false.
+    * `colors`                    - (boolean) Whether to retrieve predominant colors & color histogram of the uploaded image. Default: false.
     * `image_metadata`            - (boolean) Whether to retrieve IPTC and detailed Exif metadata of the uploaded photo. Default: false.
     * `phash`                     - (boolean) Whether to return the perceptual hash (pHash) on the uploaded image. The pHash acts as a fingerprint that allows checking image similarity. Default: false.
     * `invalidate`                - (boolean) Whether to invalidate CDN cache copies of a previously uploaded image that shares the same public ID. Default: false.
@@ -74,6 +75,9 @@ defmodule ExCloudinary do
   Delete an image from your Cloudinary library.
 
   ## Examples
+    
+    iex> ExCloudinary.delete_image("mlqonaj2pbelfn8sbxgz")
+    response
 
   ## Params
 
@@ -86,9 +90,12 @@ defmodule ExCloudinary do
   end
 
   @doc """
-  Rename the public ID of an image in your CLoudinary library.
+  Rename the public ID of an image in your Cloudinary library.
 
   ## Examples
+
+    iex> ExCloudinary.rename_image("mlqonaj2pbelfn8sbxgz", "hw2nr1ivdsnfwotueadh")
+    response
 
   ## Params
 
@@ -97,6 +104,7 @@ defmodule ExCloudinary do
     * `opts` - Keyword list of options (see below).
 
   ## Options
+  
     * `type` - The type of the image you want to rename. Default: `upload`.
     * `overwrite` - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
 
@@ -108,6 +116,19 @@ defmodule ExCloudinary do
     response.body
   end
 
+  @doc """
+  Upload any type of file to your Cloudinary library.
+
+  ## Examples
+
+    iex> ExCloudinary.upload_raw("/path/to/file")
+    response
+
+  ## Params
+
+    * `path` - The local path to a file.
+    * `public_id` - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified.
+  """
   def upload_raw(path, public_id \\ nil)
   def upload_raw(path, nil) do
     response = post!("raw/upload", [file: path])
@@ -118,6 +139,38 @@ defmodule ExCloudinary do
     response.body
   end
 
+  @doc """
+  Generate an image of a given textual string.
+
+  ## Examples
+    
+    iex> ExCloudinary.generate_text_layer("watermark")
+    response
+
+  ## Params
+
+    * `text` - The text to generate an image for.
+    * `opts` - Keyword list of options (see below).
+
+  ## Options
+    
+    * `public_id` - The identifier that is used for accessing the generated image. If not specified, a unique identifier is generated, persistently mapped to the given text and style settings. This way, you can keep using Cloudinary’s API for generating texts. Cloudinary will make sure not to generate multiple images for the same text and style.
+    * `font_family` - The name of the font family. [List of supported font families.](http://cloudinary.com/documentation/upload_images#)
+    * `font_size` - Font size in points. Default: 12.
+    * `font_color` - Name or RGB representation of the font's color. For example: `red`, `#ff0000`. Default: `black`.
+    * `font_weight` - Whether to use a `normal` or a `bold` font. Default: `normal`.
+    * `font_style` - Whether to use a `normal` or an `italic` font. Default: `normal`.
+    * `background` - Name or RGB representation of the background color of the generated image. For example: `red`, `#ff0000`. Default: `transparent`.
+    * `opacity` - Text opacity value between 0 (invisible) and 100. Default: 100.
+    * `text_decoration` - Optionally add an `underline` to the text. Default: `none`.
+  """
+  def generate_text_layer(text, opts \\ []) do
+    body = Keyword.take(opts, @generate_text_layer_opts)
+            |> Keyword.put(:text, text)
+    response = post!("image/text", body)
+    response.body
+  end
+  
   ## HTTPoison.Base extensions
 
   @doc false

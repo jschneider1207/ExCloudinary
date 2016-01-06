@@ -1,7 +1,7 @@
 defmodule ExCloudinary do
   use HTTPoison.Base
   @base_url ~S(https://api.cloudinary.com/v1_1)
-  @signed_params ~w(callback eager format public_id tags timestamp transformation type)a
+  @signed_params ~w(callback eager format from_public_id public_id tags timestamp to_public_id transformation type)a
   @upload_image_opts ~w"""
     public_id resource_type type tags context transformation format allowed_formats
     eager eager_async proxy notification_url eager_notification_url backup
@@ -64,9 +64,8 @@ defmodule ExCloudinary do
     * `upload_preset`             - Name of an upload preset that you defined for your Cloudinary account. An upload preset consists of upload parameters centrally managed using the Admin API or from the settings page of the management console. An upload preset may be marked as `unsigned`, which allows unsigned uploading directly from the browser and restrict the directly allowed parameters to: public_id, folder, tags, context, face_coordinates and custom_coordinates.
   """
   def upload_image(path, opts \\ []) do
-    body = opts
-           |> Keyword.take(opts, @upload_image_opts)
-           |> Keyword.merge([file: path, api_key: get_api_key, timestamp: get_timestamp])
+    body = Keyword.take(opts, @upload_image_opts)
+            |> Keyword.put(:file, path)
     response = post!("image/upload", body)
     response.body
   end
@@ -82,8 +81,31 @@ defmodule ExCloudinary do
     * `type` - (optional) The type of the image you want to delete. Default: `upload`
   """
   def delete_image(public_id, type \\ "upload") do
-    response = post!("image/destroy", [public_id: public_id, type: type, api_key: get_api_key, timestamp: get_timestamp])
+    response = post!("image/destroy", [public_id: public_id, type: type])
     response.body    
+  end
+
+  @doc """
+  Rename the public ID of an image in your CLoudinary library.
+
+  ## Examples
+
+  ## Params
+
+    * `from_public_id` - The current identifier of the uploaded image.
+    * `to_public_id` - The new identifier to assign to the uploaded image.
+    * `opts` - Keyword list of options (see below).
+
+  ## Options
+    * `type` - The type of the image you want to rename. Default: `upload`.
+    * `overwrite` - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
+
+  """
+  def rename_image(from_public_id, to_public_id, opts \\ []) do
+    body = Keyword.take(opts, [:type, :overwrite])
+            |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
+    response = post!("image/rename", body)
+    response.body
   end
 
   ## HTTPoison.Base extensions
@@ -94,8 +116,8 @@ defmodule ExCloudinary do
   @doc false
   def process_request_body(body) do
     body
+    |> Keyword.merge([api_key: get_api_key, timestamp: get_timestamp])
     |> sign_body()
-    |> IO.inspect()
     |> multipart_encode()
     |> IO.inspect()
   end

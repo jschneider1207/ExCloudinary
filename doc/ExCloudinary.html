@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.3">
-    <title>ExCloudinary – ex_cloudinary v0.0.1</title>
+    <title>ExCloudinary – ex_cloudinary v0.1.0</title>
     <link rel="stylesheet" href="dist/app-ddd9717ad9.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -20,17 +20,17 @@
     <i class="icon-menu"></i>
   </button>
 
-
+  
   <a href="api-reference.html" class="sidebar-projectLink">
     <div class="sidebar-projectDetails">
       <h1 class="sidebar-projectName">
         ex_cloudinary
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.1
+        v0.1.0
       </h2>
     </div>
-
+    
   </a>
 
   <div class="sidebar-search">
@@ -41,13 +41,13 @@
   <ul class="sidebar-listNav">
     <li><a id="extras-list" href="#full-list">Pages</a></li>
 
-
+    
       <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
 
+    
 
-
-
-
+    
   </ul>
 
   <ul id="full-list" class="sidebar-fullList"></ul>
@@ -59,15 +59,20 @@
 
 
       <h1>
-        <small class="visible-xs">ex_cloudinary v0.0.1</small>
+        <small class="visible-xs">ex_cloudinary v0.1.0</small>
         ExCloudinary
-
-
+        
+        
       </h1>
 
+      
+        <section id="moduledoc" class="docstring">
+          <p>A wrapper around the <a href="https://github.com/edgurgel/httpoison">HTTPoison</a>.Base module for the image CDN service <a href="http://cloudinary.com/">Cloudinary</a>.</p>
 
+        </section>
+      
 
-
+      
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
@@ -75,74 +80,72 @@
             </a>
             Summary
           </h1>
+          
 
-
-
+          
   <div class="summary-functions summary">
     <h2>
       <a href="#functions">Functions</a>
     </h2>
-
-<div class="summary-row">
-      <div class="summary-signature">
-        <a href="#delete_image/2">delete_image(public_id, type \\ &quot;upload&quot;)</a>
-      </div>
-
-        <div class="summary-synopsis"><p>Delete an image from your Cloudinary library</p>
-    </div>
-
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_image/2">delete_image(public_id, type \\ &quot;upload&quot;)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Delete an image from your Cloudinary library</p>
 </div>
-
+  
+</div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#generate_text_layer/2">generate_text_layer(text, opts \\ [])</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Generate an image of a given textual string</p>
 </div>
-
+  
 </div>
-
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#rename_image/3">rename_image(from_public_id, to_public_id, opts \\ [])</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Rename the public ID of an image in your Cloudinary library</p>
 </div>
-
+  
 </div>
-
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#upload_image/2">upload_image(path, opts \\ [])</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Upload an image to your Cloudinary library</p>
 </div>
-
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#upload_raw/2">upload_raw(path, public_id \\ nil)</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Upload any type of file to your Cloudinary library</p>
 </div>
-
+  
 </div>
 
   </div>
 
 
+          
 
-
-
+          
 
         </section>
+      
 
+      
 
-
+      
         <section id="functions" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#functions">
@@ -150,21 +153,20 @@
             </a>
             Functions
           </h1>
-
-<div class="detail" id="delete_image/2">
+          <div class="detail" id="delete_image/2">
   <div class="detail-header">
     <a href="#delete_image/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">delete_image(public_id, type \\ &quot;upload&quot;)</span>
-
+      
   </div>
-
+  
   <section class="docstring">
     <p>Delete an image from your Cloudinary library.</p>
 <h2>Examples</h2>
-<p>  iex&gt; ExCloudinary.delete_image(“mlqonaj2pbelfn8sbxgz”)
-  response</p>
+<pre><code class="iex elixir">iex&gt; ExCloudinary.delete_image(&quot;mlqonaj2pbelfn8sbxgz&quot;)
+response</code></pre>
 <h2>Params</h2>
 <ul>
 <li><code class="inline">public_id</code> - The identifier of the uploaded image.
@@ -181,14 +183,14 @@
       <i class="icon-link"></i>
     </a>
     <span class="signature">generate_text_layer(text, opts \\ [])</span>
-
+      
   </div>
-
+  
   <section class="docstring">
     <p>Generate an image of a given textual string.</p>
 <h2>Examples</h2>
-<p>  iex&gt; ExCloudinary.generate_text_layer(“watermark”)
-  response</p>
+<pre><code class="iex elixir">iex&gt; ExCloudinary.generate_text_layer(&quot;watermark&quot;)
+response</code></pre>
 <h2>Params</h2>
 <ul>
 <li><code class="inline">text</code> - The text to generate an image for.
@@ -226,14 +228,14 @@
       <i class="icon-link"></i>
     </a>
     <span class="signature">rename_image(from_public_id, to_public_id, opts \\ [])</span>
-
+      
   </div>
-
+  
   <section class="docstring">
     <p>Rename the public ID of an image in your Cloudinary library.</p>
 <h2>Examples</h2>
-<p>  iex&gt; ExCloudinary.rename_image(“mlqonaj2pbelfn8sbxgz”, “hw2nr1ivdsnfwotueadh”)
-  response</p>
+<pre><code class="iex elixir">iex&gt; ExCloudinary.rename_image(&quot;mlqonaj2pbelfn8sbxgz&quot;, &quot;hw2nr1ivdsnfwotueadh&quot;)
+response</code></pre>
 <h2>Params</h2>
 <ul>
 <li><code class="inline">from_public_id</code> - The current identifier of the uploaded image.
@@ -253,24 +255,23 @@
 
   </section>
 </div>
-
 <div class="detail" id="upload_image/2">
   <div class="detail-header">
     <a href="#upload_image/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">upload_image(path, opts \\ [])</span>
-
+      
   </div>
-
+  
   <section class="docstring">
     <p>Upload an image to your Cloudinary library.</p>
 <h2>Examples</h2>
 <pre><code class="iex elixir">iex&gt; ExCloudinary.upload_image(&quot;/path/to/image.jpeg&quot;)
-response
+  response
 
-iex&gt; ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
-response</code></pre>
+  iex&gt; ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
+  response</code></pre>
 <h2>Parameters</h2>
 <ul>
 <li><code class="inline">file</code> - Either the local path to an image or the http url of a public image resource.
@@ -288,7 +289,7 @@ response</code></pre>
 </li>
 <li><code class="inline">tags</code> - A comma-separated list of tag names to assign to the uploaded image for later group reference.
 </li>
-<li><code class="inline">context</code> - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: “alt=My image|caption=Profile Photo”.
+<li><code class="inline">context</code> - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: <code class="inline">alt=My image|caption=Profile Photo</code>.
 </li>
 <li><code class="inline">transformation</code> - A transformation to run on the uploaded image before saving it in the cloud. For example: limit the dimension of the uploaded image to 512x512 pixels.
 </li>
@@ -332,9 +333,9 @@ response</code></pre>
 </li>
 <li><code class="inline">discard_original_filename</code> - (boolean) Whether to discard the name of the original uploaded file. Relevant when delivering images as attachments (setting the <code class="inline">flags</code> transformation parameter to <code class="inline">attachment</code>). Default: false.
 </li>
-<li><code class="inline">face_coordinates</code> - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the face. The coordinates are comma separated while faces are concatenated with <code class="inline">|</code>. For example: “10,20,150,130|213,345,82,61”.
+<li><code class="inline">face_coordinates</code> - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the face. The coordinates are comma separated while faces are concatenated with <code class="inline">|</code>. For example: <code class="inline">10,20,150,130|213,345,82,61</code>.
 </li>
-<li><code class="inline">custom_coordinates</code> - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the region. For example: “85,120,220,310”.
+<li><code class="inline">custom_coordinates</code> - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the region. For example: <code class="inline">85,120,220,310</code>.
 </li>
 <li><code class="inline">raw_convert</code> - Set to <code class="inline">aspose</code> to automatically convert Office documents to PDF files and other image formats using the Aspose Document Conversion add-on.
 </li>
@@ -356,14 +357,14 @@ response</code></pre>
       <i class="icon-link"></i>
     </a>
     <span class="signature">upload_raw(path, public_id \\ nil)</span>
-
+      
   </div>
-
+  
   <section class="docstring">
     <p>Upload any type of file to your Cloudinary library.</p>
 <h2>Examples</h2>
-<p>  iex&gt; ExCloudinary.upload_raw(“/path/to/file”)
-  response</p>
+<pre><code class="iex elixir">iex&gt; ExCloudinary.upload_raw(&quot;/path/to/file&quot;)
+response</code></pre>
 <h2>Params</h2>
 <ul>
 <li><code class="inline">path</code> - The local path to a file.
@@ -376,11 +377,11 @@ response</code></pre>
 </div>
 
         </section>
+      
 
+      
 
-
-
-
+      
         <footer class="footer">
       <p>
         <span class="line">
@@ -400,3 +401,4 @@ response</code></pre>
   <script src="dist/app-6d2e071366.js"></script>
   </body>
 </html>
+

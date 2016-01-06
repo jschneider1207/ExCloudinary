@@ -98,10 +98,28 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#delete_image!/2">delete_image!(public_id, type \\ &quot;upload&quot;)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="#delete_image/2"><code class="inline">delete_image/2</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#generate_text_layer/2">generate_text_layer(text, opts \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Generate an image of a given textual string</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#generate_text_layer!/2">generate_text_layer!(text, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="#generate_text_layer/2"><code class="inline">generate_text_layer/2</code></a></p>
 </div>
   
 </div>
@@ -116,6 +134,15 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#rename_image!/3">rename_image!(from_public_id, to_public_id, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="#rename_image/3"><code class="inline">rename_image/3</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#upload_image/2">upload_image(path, opts \\ [])</a>
   </div>
   
@@ -125,10 +152,28 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#upload_image!/2">upload_image!(path, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <code class="inline">&amp;upload_image/2</code></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#upload_raw/2">upload_raw(path, public_id \\ nil)</a>
   </div>
   
     <div class="summary-synopsis"><p>Upload any type of file to your Cloudinary library</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#upload_raw!/2">upload_raw!(path, public_id \\ nil)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>See <a href="#upload_raw/2"><code class="inline">upload_raw/2</code></a></p>
 </div>
   
 </div>
@@ -177,6 +222,20 @@ response</code></pre>
 
   </section>
 </div>
+<div class="detail" id="delete_image!/2">
+  <div class="detail-header">
+    <a href="#delete_image!/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_image!(public_id, type \\ &quot;upload&quot;)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="#delete_image/2"><code class="inline">delete_image/2</code></a></p>
+
+  </section>
+</div>
 <div class="detail" id="generate_text_layer/2">
   <div class="detail-header">
     <a href="#generate_text_layer/2" class="detail-link" title="Link to this function">
@@ -222,6 +281,20 @@ response</code></pre>
 
   </section>
 </div>
+<div class="detail" id="generate_text_layer!/2">
+  <div class="detail-header">
+    <a href="#generate_text_layer!/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">generate_text_layer!(text, opts \\ [])</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="#generate_text_layer/2"><code class="inline">generate_text_layer/2</code></a></p>
+
+  </section>
+</div>
 <div class="detail" id="rename_image/3">
   <div class="detail-header">
     <a href="#rename_image/3" class="detail-link" title="Link to this function">
@@ -252,6 +325,20 @@ response</code></pre>
 <li><code class="inline">overwrite</code> - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
 </li>
 </ul>
+
+  </section>
+</div>
+<div class="detail" id="rename_image!/3">
+  <div class="detail-header">
+    <a href="#rename_image!/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">rename_image!(from_public_id, to_public_id, opts \\ [])</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="#rename_image/3"><code class="inline">rename_image/3</code></a></p>
 
   </section>
 </div>
@@ -351,6 +438,20 @@ response</code></pre>
 
   </section>
 </div>
+<div class="detail" id="upload_image!/2">
+  <div class="detail-header">
+    <a href="#upload_image!/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">upload_image!(path, opts \\ [])</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <code class="inline">&amp;upload_image/2</code></p>
+
+  </section>
+</div>
 <div class="detail" id="upload_raw/2">
   <div class="detail-header">
     <a href="#upload_raw/2" class="detail-link" title="Link to this function">
@@ -372,6 +473,20 @@ response</code></pre>
 <li><code class="inline">public_id</code> - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified.
 </li>
 </ul>
+
+  </section>
+</div>
+<div class="detail" id="upload_raw!/2">
+  <div class="detail-header">
+    <a href="#upload_raw!/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">upload_raw!(path, public_id \\ nil)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>See <a href="#upload_raw/2"><code class="inline">upload_raw/2</code></a></p>
 
   </section>
 </div>

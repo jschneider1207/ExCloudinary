@@ -15,7 +15,6 @@ defmodule ExCloudinary.Client do
     |> Keyword.merge([api_key: get_api_key, timestamp: get_timestamp])
     |> sign_body()
     |> multipart_encode()
-    |> IO.inspect()
   end
 
   @doc false
@@ -43,7 +42,6 @@ defmodule ExCloudinary.Client do
     |> List.keysort(0)
     |> URI.encode_query()
     |> append_secret()
-    |> IO.inspect()
     |> hash_signature()
     |> Base.encode16()
   end
@@ -55,7 +53,7 @@ defmodule ExCloudinary.Client do
   defp add_signature_to_body(signature, body), do: Keyword.put(body, :signature, signature)
 
   defp multipart_encode(body) do
-    body = Enum.map(body, fn {:file, path} -> {:file, path, [{"Transfer-Encoding", "chunked"}]}
+    body = Enum.map(body, fn {:file, path} -> {:file, path}
                               {key, value} -> {to_string(key), value} end)
     {:multipart, body}
   end

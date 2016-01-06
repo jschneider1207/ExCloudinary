@@ -1,7 +1,8 @@
 defmodule ExCloudinary do
-  use HTTPoison.Base
-  @base_url ~S(https://api.cloudinary.com/v1_1)
-  @signed_params ~w(callback eager format from_public_id public_id tags timestamp to_public_id text transformation type)a
+  @moduledoc """
+  A wrapper around the [HTTPoison](https://github.com/edgurgel/httpoison).Base module for the image CDN service [Cloudinary](http://cloudinary.com/).
+  """
+  alias ExCloudinary.Client
   @upload_image_opts ~w"""
     public_id resource_type type tags context transformation format allowed_formats
     eager eager_async proxy notification_url eager_notification_url backup
@@ -17,11 +18,11 @@ defmodule ExCloudinary do
 
   ## Examples
 
-      iex> ExCloudinary.upload_image("/path/to/image.jpeg")
-      response
+        iex> ExCloudinary.upload_image("/path/to/image.jpeg")
+        response
 
-      iex> ExCloudinary.upload_image("https://www.internet.com/image.jpeg")
-      response
+        iex> ExCloudinary.upload_image("https://www.internet.com/image.jpeg")
+        response
 
   ## Parameters
 
@@ -34,7 +35,7 @@ defmodule ExCloudinary do
     * `resource_type` - Valid values: `image`, `raw` and `auto`. Default: `image`.
     * `type` - Allows uploading images as `private` or `authenticated`. Valid values: `upload`, `private` and `authenticated`. Default: `upload`.
     * `tags` - A comma-separated list of tag names to assign to the uploaded image for later group reference.
-    * `context` - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: "alt=My image|caption=Profile Photo".
+    * `context` - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: `alt=My image|caption=Profile Photo`.
     * `transformation` - A transformation to run on the uploaded image before saving it in the cloud. For example: limit the dimension of the uploaded image to 512x512 pixels.
     * `format` - An optional format to convert the uploaded image to before saving in the cloud. For example: `jpg`.
     * `allowed_formats` - A comma-separated list of file formats that are allowed for uploading. The default is any supported image kind and any type of raw file. Files of other types will be rejected. The formats can be image types or raw file extensions. For example: `jpg,gif,doc`.
@@ -56,8 +57,8 @@ defmodule ExCloudinary do
     * `folder` - An optional folder name where the uploaded resource will be stored. The public ID contains the full path of the uploaded resource, including the folder name.
     * `overwrite` - (boolean) Whether to overwrite existing resources with the same public ID. When set to false, return immediately if a resource with the same public ID was found. Default: true.
     * `discard_original_filename` - (boolean) Whether to discard the name of the original uploaded file. Relevant when delivering images as attachments (setting the `flags` transformation parameter to `attachment`). Default: false.
-    * `face_coordinates` - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X & Y coordinates of the top left corner and the width & height of the face. The coordinates are comma separated while faces are concatenated with `|`. For example: "10,20,150,130|213,345,82,61".
-    * `custom_coordinates` - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X & Y coordinates of the top left corner and the width & height of the region. For example: "85,120,220,310".
+    * `face_coordinates` - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X & Y coordinates of the top left corner and the width & height of the face. The coordinates are comma separated while faces are concatenated with `|`. For example: `10,20,150,130|213,345,82,61`.
+    * `custom_coordinates` - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X & Y coordinates of the top left corner and the width & height of the region. For example: `85,120,220,310`.
     * `raw_convert` - Set to `aspose` to automatically convert Office documents to PDF files and other image formats using the Aspose Document Conversion add-on.
     * `auto_tagging` - (0.0..1.0) Whether to assign tags to an image according to detected scene categories with confidence score higher than the given value.
     * `background_removal` - Set to `remove_the_background` to automatically clear the background of an uploaded photo using the Remove-The-Background Editing add-on.
@@ -67,17 +68,16 @@ defmodule ExCloudinary do
   def upload_image(path, opts \\ []) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
-    response = post!("image/upload", body)
-    response.body
+    Client.post!("image/upload", body)
   end
 
   @doc """
   Delete an image from your Cloudinary library.
 
   ## Examples
-    
-    iex> ExCloudinary.delete_image("mlqonaj2pbelfn8sbxgz")
-    response
+
+      iex> ExCloudinary.delete_image("mlqonaj2pbelfn8sbxgz")
+      response
 
   ## Params
 
@@ -85,8 +85,7 @@ defmodule ExCloudinary do
     * `type` - (optional) The type of the image you want to delete. Default: `upload`
   """
   def delete_image(public_id, type \\ "upload") do
-    response = post!("image/destroy", [public_id: public_id, type: type])
-    response.body    
+    Client.post!("image/destroy", [public_id: public_id, type: type])
   end
 
   @doc """
@@ -94,8 +93,8 @@ defmodule ExCloudinary do
 
   ## Examples
 
-    iex> ExCloudinary.rename_image("mlqonaj2pbelfn8sbxgz", "hw2nr1ivdsnfwotueadh")
-    response
+      iex> ExCloudinary.rename_image("mlqonaj2pbelfn8sbxgz", "hw2nr1ivdsnfwotueadh")
+      response
 
   ## Params
 
@@ -104,7 +103,7 @@ defmodule ExCloudinary do
     * `opts` - Keyword list of options (see below).
 
   ## Options
-  
+
     * `type` - The type of the image you want to rename. Default: `upload`.
     * `overwrite` - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
 
@@ -112,8 +111,7 @@ defmodule ExCloudinary do
   def rename_image(from_public_id, to_public_id, opts \\ []) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
-    response = post!("image/rename", body)
-    response.body
+    Client.post!("image/rename", body)
   end
 
   @doc """
@@ -121,8 +119,8 @@ defmodule ExCloudinary do
 
   ## Examples
 
-    iex> ExCloudinary.upload_raw("/path/to/file")
-    response
+      iex> ExCloudinary.upload_raw("/path/to/file")
+      response
 
   ## Params
 
@@ -131,21 +129,19 @@ defmodule ExCloudinary do
   """
   def upload_raw(path, public_id \\ nil)
   def upload_raw(path, nil) do
-    response = post!("raw/upload", [file: path])
-    response.body
+    Client.post!("raw/upload", [file: path])
   end
   def upload_raw(path, public_id) do
-    response = post!("raw/upload", [file: path, public_id: public_id])
-    response.body
+    Client.post!("raw/upload", [file: path, public_id: public_id])
   end
 
   @doc """
   Generate an image of a given textual string.
 
   ## Examples
-    
-    iex> ExCloudinary.generate_text_layer("watermark")
-    response
+
+      iex> ExCloudinary.generate_text_layer("watermark")
+      response
 
   ## Params
 
@@ -153,7 +149,7 @@ defmodule ExCloudinary do
     * `opts` - Keyword list of options (see below).
 
   ## Options
-    
+
     * `public_id` - The identifier that is used for accessing the generated image. If not specified, a unique identifier is generated, persistently mapped to the given text and style settings. This way, you can keep using Cloudinary’s API for generating texts. Cloudinary will make sure not to generate multiple images for the same text and style.
     * `font_family` - The name of the font family. [List of supported font families.](http://cloudinary.com/documentation/upload_images#)
     * `font_size` - Font size in points. Default: 12.
@@ -167,64 +163,6 @@ defmodule ExCloudinary do
   def generate_text_layer(text, opts \\ []) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
-    response = post!("image/text", body)
-    response.body
+    Client.post!("image/text", body)
   end
-  
-  ## HTTPoison.Base extensions
-
-  @doc false
-  def process_url(url), do: "#{@base_url}/#{get_name}/#{url}"
-
-  @doc false
-  def process_request_body(body) do
-    body
-    |> Keyword.merge([api_key: get_api_key, timestamp: get_timestamp])
-    |> sign_body()
-    |> multipart_encode()
-    |> IO.inspect()
-  end
-
-  @doc false
-  def process_response_body(body), do: Poison.decode!(body)
-
-  ## Private helpers
-
-  defp get_name, do: Application.get_env(:ex_cloudinary, :name)
-
-  defp get_api_key, do: Application.get_env(:ex_cloudinary, :api_key)
-
-  defp get_api_secret, do: Application.get_env(:ex_cloudinary, :api_secret)
-
-  defp get_timestamp, do: :os.system_time(:seconds) |> Integer.to_string()
-
-  defp sign_body(body) do
-    body
-    |> generate_signature()
-    |> add_signature_to_body(body)
-  end
-
-  defp generate_signature(body) do
-    body
-    |> Keyword.take(@signed_params)
-    |> List.keysort(0)
-    |> URI.encode_query()
-    |> append_secret()
-    |> IO.inspect()
-    |> hash_signature()
-    |> Base.encode16()
-  end
-
-  defp append_secret(signature), do: signature <> get_api_secret
-
-  defp hash_signature(signature), do: :crypto.hash(:sha, signature)
-
-  defp add_signature_to_body(signature, body), do: Keyword.put(body, :signature, signature)
-
-  defp multipart_encode(body) do
-    body = Enum.map(body, fn {:file, path} -> {:file, path, [{"Transfer-Encoding", "chunked"}]}
-                              {key, value} -> {to_string(key), value} end)
-    {:multipart, body}
-  end
-
 end

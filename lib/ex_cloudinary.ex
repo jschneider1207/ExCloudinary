@@ -108,6 +108,16 @@ defmodule ExCloudinary do
     response.body
   end
 
+  def upload_raw(path, public_id \\ nil)
+  def upload_raw(path, nil) do
+    response = post!("raw/upload", [file: path])
+    response.body
+  end
+  def upload_raw(path, public_id) do
+    response = post!("raw/upload", [file: path, public_id: public_id])
+    response.body
+  end
+
   ## HTTPoison.Base extensions
 
   @doc false

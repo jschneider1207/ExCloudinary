@@ -76,25 +76,43 @@
             Summary
           </h1>
 
-  <div class="summary-types summary">
-    <h2>
-      <a href="#types">Types</a>
-    </h2>
-    <div class="summary-row">
-  <div class="summary-signature">
-    <a href="#t:headers/0">headers()</a>
-  </div>
-
-</div>
-
-  </div>
-
 
 
   <div class="summary-functions summary">
     <h2>
       <a href="#functions">Functions</a>
     </h2>
+
+<div class="summary-row">
+      <div class="summary-signature">
+        <a href="#delete_image/2">delete_image(public_id, type \\ &quot;upload&quot;)</a>
+      </div>
+
+        <div class="summary-synopsis"><p>Delete an image from your Cloudinary library</p>
+    </div>
+
+</div>
+
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#generate_text_layer/2">generate_text_layer(text, opts \\ [])</a>
+  </div>
+
+    <div class="summary-synopsis"><p>Generate an image of a given textual string</p>
+</div>
+
+</div>
+
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#rename_image/3">rename_image(from_public_id, to_public_id, opts \\ [])</a>
+  </div>
+
+    <div class="summary-synopsis"><p>Rename the public ID of an image in your Cloudinary library</p>
+</div>
+
+</div>
+
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#upload_image/2">upload_image(path, opts \\ [])</a>
@@ -104,6 +122,15 @@
 </div>
 
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#upload_raw/2">upload_raw(path, public_id \\ nil)</a>
+  </div>
+
+    <div class="summary-synopsis"><p>Upload any type of file to your Cloudinary library</p>
+</div>
+
+</div>
 
   </div>
 
@@ -112,24 +139,6 @@
 
 
 
-        </section>
-
-
-
-        <section id="types" class="types details-list">
-          <h1 class="section-heading">
-            <a class="hover-link" href="#types">
-              <i class="icon-link"></i>
-            </a>
-            Types
-          </h1>
-          <div class="types-list">
-            <div id="t:headers/0" class="type-detail">
-  <pre><code class="elixir"><a href="#t:headers/0">headers</a> :: [{binary, binary}]</code></pre>
-
-</div>
-
-          </div>
         </section>
 
 
@@ -140,7 +149,111 @@
               <i class="icon-link"></i>
             </a>
             Functions
-          </h1>          
+          </h1>
+
+<div class="detail" id="delete_image/2">
+  <div class="detail-header">
+    <a href="#delete_image/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_image(public_id, type \\ &quot;upload&quot;)</span>
+
+  </div>
+
+  <section class="docstring">
+    <p>Delete an image from your Cloudinary library.</p>
+<h2>Examples</h2>
+<p>  iex&gt; ExCloudinary.delete_image(“mlqonaj2pbelfn8sbxgz”)
+  response</p>
+<h2>Params</h2>
+<ul>
+<li><code class="inline">public_id</code> - The identifier of the uploaded image.
+</li>
+<li><code class="inline">type</code> - (optional) The type of the image you want to delete. Default: <code class="inline">upload</code>
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="generate_text_layer/2">
+  <div class="detail-header">
+    <a href="#generate_text_layer/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">generate_text_layer(text, opts \\ [])</span>
+
+  </div>
+
+  <section class="docstring">
+    <p>Generate an image of a given textual string.</p>
+<h2>Examples</h2>
+<p>  iex&gt; ExCloudinary.generate_text_layer(“watermark”)
+  response</p>
+<h2>Params</h2>
+<ul>
+<li><code class="inline">text</code> - The text to generate an image for.
+</li>
+<li><code class="inline">opts</code> - Keyword list of options (see below).
+</li>
+</ul>
+<h2>Options</h2>
+<ul>
+<li><code class="inline">public_id</code> - The identifier that is used for accessing the generated image. If not specified, a unique identifier is generated, persistently mapped to the given text and style settings. This way, you can keep using Cloudinary’s API for generating texts. Cloudinary will make sure not to generate multiple images for the same text and style.
+</li>
+<li><code class="inline">font_family</code> - The name of the font family. <a href="http://cloudinary.com/documentation/upload_images#">List of supported font families.</a>
+</li>
+<li><code class="inline">font_size</code> - Font size in points. Default: 12.
+</li>
+<li><code class="inline">font_color</code> - Name or RGB representation of the font’s color. For example: <code class="inline">red</code>, <code class="inline">#ff0000</code>. Default: <code class="inline">black</code>.
+</li>
+<li><code class="inline">font_weight</code> - Whether to use a <code class="inline">normal</code> or a <code class="inline">bold</code> font. Default: <code class="inline">normal</code>.
+</li>
+<li><code class="inline">font_style</code> - Whether to use a <code class="inline">normal</code> or an <code class="inline">italic</code> font. Default: <code class="inline">normal</code>.
+</li>
+<li><code class="inline">background</code> - Name or RGB representation of the background color of the generated image. For example: <code class="inline">red</code>, <code class="inline">#ff0000</code>. Default: <code class="inline">transparent</code>.
+</li>
+<li><code class="inline">opacity</code> - Text opacity value between 0 (invisible) and 100. Default: 100.
+</li>
+<li><code class="inline">text_decoration</code> - Optionally add an <code class="inline">underline</code> to the text. Default: <code class="inline">none</code>.
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="rename_image/3">
+  <div class="detail-header">
+    <a href="#rename_image/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">rename_image(from_public_id, to_public_id, opts \\ [])</span>
+
+  </div>
+
+  <section class="docstring">
+    <p>Rename the public ID of an image in your Cloudinary library.</p>
+<h2>Examples</h2>
+<p>  iex&gt; ExCloudinary.rename_image(“mlqonaj2pbelfn8sbxgz”, “hw2nr1ivdsnfwotueadh”)
+  response</p>
+<h2>Params</h2>
+<ul>
+<li><code class="inline">from_public_id</code> - The current identifier of the uploaded image.
+</li>
+<li><code class="inline">to_public_id</code> - The new identifier to assign to the uploaded image.
+</li>
+<li><code class="inline">opts</code> - Keyword list of options (see below).
+</li>
+</ul>
+<h2>Options</h2>
+<ul>
+<li><code class="inline">type</code> - The type of the image you want to rename. Default: <code class="inline">upload</code>.
+</li>
+<li><code class="inline">overwrite</code> - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
+</li>
+</ul>
+
+  </section>
+</div>
+
 <div class="detail" id="upload_image/2">
   <div class="detail-header">
     <a href="#upload_image/2" class="detail-link" title="Link to this function">
@@ -153,11 +266,11 @@
   <section class="docstring">
     <p>Upload an image to your Cloudinary library.</p>
 <h2>Examples</h2>
-<pre><code class="elixir">ExCloudinary.upload_image(&quot;/path/to/image.jpeg&quot;)
-#=&gt; response
+<pre><code class="iex elixir">iex&gt; ExCloudinary.upload_image(&quot;/path/to/image.jpeg&quot;)
+response
 
-ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
-#=&gt; response</code></pre>
+iex&gt; ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
+response</code></pre>
 <h2>Parameters</h2>
 <ul>
 <li><code class="inline">file</code> - Either the local path to an image or the http url of a public image resource.
@@ -167,71 +280,95 @@ ExCloudinary.upload_image(&quot;https://www.internet.com/image.jpeg&quot;)
 </ul>
 <h2>Options</h2>
 <ul>
-<li><code class="inline">public_id</code>                 - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified. The public ID may contain a full path including folders separated by ‘/‘.
+<li><code class="inline">public_id</code> - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified. The public ID may contain a full path including folders separated by <code class="inline">/</code>.
 </li>
-<li><code class="inline">resource_type</code>             - Valid values: ‘image’, ‘raw’ and ‘auto’. Default: ‘image’.
+<li><code class="inline">resource_type</code> - Valid values: <code class="inline">image</code>, <code class="inline">raw</code> and <code class="inline">auto</code>. Default: <code class="inline">image</code>.
 </li>
-<li><code class="inline">type</code>                      - Allows uploading images as ‘private’ or ‘authenticated’. Valid values: ‘upload’, ‘private’ and ‘authenticated’. Default: ‘upload’.
+<li><code class="inline">type</code> - Allows uploading images as <code class="inline">private</code> or <code class="inline">authenticated</code>. Valid values: <code class="inline">upload</code>, <code class="inline">private</code> and <code class="inline">authenticated</code>. Default: <code class="inline">upload</code>.
 </li>
-<li><code class="inline">tags</code>                      - A comma-separated list of tag names to assign to the uploaded image for later group reference.
+<li><code class="inline">tags</code> - A comma-separated list of tag names to assign to the uploaded image for later group reference.
 </li>
-<li><code class="inline">context</code>                   - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: “alt=My image|caption=Profile Photo”.
+<li><code class="inline">context</code> - A pipe separated list of key-value pairs of general textual context metadata to attach to an uploaded resource. The context values of uploaded files are available for fetching using the Admin API. For example: “alt=My image|caption=Profile Photo”.
 </li>
-<li><code class="inline">transformation</code>            - A transformation to run on the uploaded image before saving it in the cloud. For example: limit the dimension of the uploaded image to 512x512 pixels.
+<li><code class="inline">transformation</code> - A transformation to run on the uploaded image before saving it in the cloud. For example: limit the dimension of the uploaded image to 512x512 pixels.
 </li>
-<li><code class="inline">format</code>                    - An optional format to convert the uploaded image to before saving in the cloud. For example: ‘jpg’.
+<li><code class="inline">format</code> - An optional format to convert the uploaded image to before saving in the cloud. For example: <code class="inline">jpg</code>.
 </li>
-<li><code class="inline">allowed_formats</code>           - A comma-separated list of file formats that are allowed for uploading. The default is any supported image kind and any type of raw file. Files of other types will be rejected. The formats can be image types or raw file extensions. For example: ‘jpg,gif,doc’.
+<li><code class="inline">allowed_formats</code> - A comma-separated list of file formats that are allowed for uploading. The default is any supported image kind and any type of raw file. Files of other types will be rejected. The formats can be image types or raw file extensions. For example: <code class="inline">jpg,gif,doc</code>.
 </li>
-<li><code class="inline">eager</code>                     - A list of transformations to create for the uploaded image during the upload process, instead of lazily creating them when being accessed by your site’s visitors. The transformation strings are separated by ‘|’.
+<li><code class="inline">eager</code> - A list of transformations to create for the uploaded image during the upload process, instead of lazily creating them when being accessed by your site’s visitors. The transformation strings are separated by <code class="inline">|</code>.
 </li>
-<li><code class="inline">eager_async</code>               - (boolean) Whether to generate the eager transformations asynchronously in the background after the upload request is completed rather than online as part of the upload call. Default: false.
+<li><code class="inline">eager_async</code> - (boolean) Whether to generate the eager transformations asynchronously in the background after the upload request is completed rather than online as part of the upload call. Default: false.
 </li>
-<li><code class="inline">proxy</code>                     - Tells Cloudinary to upload images from remote URLs through the given proxy. Format: ‘<a href="http://hostname:post">http://hostname:post</a>’.
+<li><code class="inline">proxy</code> - Tells Cloudinary to upload images from remote URLs through the given proxy. Format: <code class="inline">http://hostname:post</code>.
 </li>
-<li><code class="inline">notification_url</code>          - An HTTP URL to send notification to (a webhook) when the upload is completed or any requested asynchronous action is completed.
+<li><code class="inline">notification_url</code> - An HTTP URL to send notification to (a webhook) when the upload is completed or any requested asynchronous action is completed.
 </li>
-<li><code class="inline">eager_notification_url</code>    - An HTTP URL to send notification to (a webhook) when the generation of eager transformations is completed.
+<li><code class="inline">eager_notification_url</code> - An HTTP URL to send notification to (a webhook) when the generation of eager transformations is completed.
 </li>
-<li><code class="inline">backup</code>                    - (boolean) Tell Cloudinary whether to backup the uploaded image. Overrides the default backup settings of your account.
+<li><code class="inline">backup</code> - (boolean) Tell Cloudinary whether to backup the uploaded image. Overrides the default backup settings of your account.
 </li>
-<li><code class="inline">return_delete_token</code>       - (boolean) Whether to return a deletion token in the upload response. The token can be used to delete the uploaded image within 10 minutes using an unauthenticated API request.
+<li><code class="inline">return_delete_token</code> - (boolean) Whether to return a deletion token in the upload response. The token can be used to delete the uploaded image within 10 minutes using an unauthenticated API request.
 </li>
-<li><code class="inline">faces</code>                     - (boolean) Whether to retrieve a list of coordinates of automatically detected faces in the uploaded photo. Default: false.
+<li><code class="inline">faces</code> - (boolean) Whether to retrieve a list of coordinates of automatically detected faces in the uploaded photo. Default: false.
 </li>
-<li><code class="inline">exif</code>                      -  (boolean)Whether to retrieve the Exif metadata of the uploaded photo. Default: false.
+<li><code class="inline">exif</code> - (boolean)Whether to retrieve the Exif metadata of the uploaded photo. Default: false.
 </li>
-<li><code class="inline">colors</code>                    -  (boolean) Whether to retrieve predominant colors &amp; color histogram of the uploaded image. Default: false.
+<li><code class="inline">colors</code> - (boolean) Whether to retrieve predominant colors &amp; color histogram of the uploaded image. Default: false.
 </li>
-<li><code class="inline">image_metadata</code>            - (boolean) Whether to retrieve IPTC and detailed Exif metadata of the uploaded photo. Default: false.
+<li><code class="inline">image_metadata</code> - (boolean) Whether to retrieve IPTC and detailed Exif metadata of the uploaded photo. Default: false.
 </li>
-<li><code class="inline">phash</code>                     - (boolean) Whether to return the perceptual hash (pHash) on the uploaded image. The pHash acts as a fingerprint that allows checking image similarity. Default: false.
+<li><code class="inline">phash</code> - (boolean) Whether to return the perceptual hash (pHash) on the uploaded image. The pHash acts as a fingerprint that allows checking image similarity. Default: false.
 </li>
-<li><code class="inline">invalidate</code>                - (boolean) Whether to invalidate CDN cache copies of a previously uploaded image that shares the same public ID. Default: false.
+<li><code class="inline">invalidate</code> - (boolean) Whether to invalidate CDN cache copies of a previously uploaded image that shares the same public ID. Default: false.
 </li>
-<li><code class="inline">use_filename</code>              - (boolean) Whether to use the original file name of the uploaded image if available for the public ID. The file name is normalized and random characters are appended to ensure uniqueness. Default: false.
+<li><code class="inline">use_filename</code> - (boolean) Whether to use the original file name of the uploaded image if available for the public ID. The file name is normalized and random characters are appended to ensure uniqueness. Default: false.
 </li>
-<li><code class="inline">unique_filename</code>           - (boolean) Only relevant if use_filename is true. When set to false, should not add random characters at the end of the filename that guarantee its uniqueness. Default: true.
+<li><code class="inline">unique_filename</code> - (boolean) Only relevant if use_filename is true. When set to false, should not add random characters at the end of the filename that guarantee its uniqueness. Default: true.
 </li>
-<li><code class="inline">folder</code>                    - An optional folder name where the uploaded resource will be stored. The public ID contains the full path of the uploaded resource, including the folder name.
+<li><code class="inline">folder</code> - An optional folder name where the uploaded resource will be stored. The public ID contains the full path of the uploaded resource, including the folder name.
 </li>
-<li><code class="inline">overwrite</code>                 - (boolean) Whether to overwrite existing resources with the same public ID. When set to false, return immediately if a resource with the same public ID was found. Default: true.
+<li><code class="inline">overwrite</code> - (boolean) Whether to overwrite existing resources with the same public ID. When set to false, return immediately if a resource with the same public ID was found. Default: true.
 </li>
-<li><code class="inline">discard_original_filename</code> - (boolean) Whether to discard the name of the original uploaded file. Relevant when delivering images as attachments (setting the ‘flags’ transformation parameter to ‘attachment’). Default: false.
+<li><code class="inline">discard_original_filename</code> - (boolean) Whether to discard the name of the original uploaded file. Relevant when delivering images as attachments (setting the <code class="inline">flags</code> transformation parameter to <code class="inline">attachment</code>). Default: false.
 </li>
-<li><code class="inline">face_coordinates</code>          - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the face. The coordinates are comma separated while faces are concatenated with ‘|’. For example: “10,20,150,130|213,345,82,61”.
+<li><code class="inline">face_coordinates</code> - List of coordinates of faces contained in an uploaded image. The given coordinates are used for cropping uploaded images using the face or faces gravity mode. The specified coordinates override the automatically detected faces. Each face is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the face. The coordinates are comma separated while faces are concatenated with <code class="inline">|</code>. For example: “10,20,150,130|213,345,82,61”.
 </li>
-<li><code class="inline">custom_coordinates</code>        - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the region. For example: “85,120,220,310”.
+<li><code class="inline">custom_coordinates</code> - Coordinates of an interesting region contained in an uploaded image. The given coordinates are used for cropping uploaded images using the custom gravity mode. The region is specified by the X &amp; Y coordinates of the top left corner and the width &amp; height of the region. For example: “85,120,220,310”.
 </li>
-<li><code class="inline">raw_convert</code>               - Set to ‘aspose’ to automatically convert Office documents to PDF files and other image formats using the Aspose Document Conversion add-on.
+<li><code class="inline">raw_convert</code> - Set to <code class="inline">aspose</code> to automatically convert Office documents to PDF files and other image formats using the Aspose Document Conversion add-on.
 </li>
-<li><code class="inline">auto_tagging</code>              - (0.0..1.0) Whether to assign tags to an image according to detected scene categories with confidence score higher than the given value.
+<li><code class="inline">auto_tagging</code> - (0.0..1.0) Whether to assign tags to an image according to detected scene categories with confidence score higher than the given value.
 </li>
-<li><code class="inline">background_removal</code>        - Set to ‘remove_the_background’ to automatically clear the background of an uploaded photo using the Remove-The-Background Editing add-on.
+<li><code class="inline">background_removal</code> - Set to <code class="inline">remove_the_background</code> to automatically clear the background of an uploaded photo using the Remove-The-Background Editing add-on.
 </li>
-<li><code class="inline">moderation</code>                - Set to ‘manual’ to add the uploaded image to a queue of pending moderation images. Set to ‘webpurify’ to automatically moderate the uploaded image using the WebPurify Image Moderation add-on.
+<li><code class="inline">moderation</code> - Set to <code class="inline">manual</code> to add the uploaded image to a queue of pending moderation images. Set to <code class="inline">webpurify</code> to automatically moderate the uploaded image using the WebPurify Image Moderation add-on.
 </li>
-<li><code class="inline">upload_preset</code>             - Name of an upload preset that you defined for your Cloudinary account. An upload preset consists of upload parameters centrally managed using the Admin API or from the settings page of the management console. An upload preset may be marked as ‘unsigned’, which allows unsigned uploading directly from the browser and restrict the directly allowed parameters to: public_id, folder, tags, context, face_coordinates and custom_coordinates.
+<li><code class="inline">upload_preset</code> - Name of an upload preset that you defined for your Cloudinary account. An upload preset consists of upload parameters centrally managed using the Admin API or from the settings page of the management console. An upload preset may be marked as <code class="inline">unsigned</code>, which allows unsigned uploading directly from the browser and restrict the directly allowed parameters to: public_id, folder, tags, context, face_coordinates and custom_coordinates.
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="upload_raw/2">
+  <div class="detail-header">
+    <a href="#upload_raw/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">upload_raw(path, public_id \\ nil)</span>
+
+  </div>
+
+  <section class="docstring">
+    <p>Upload any type of file to your Cloudinary library.</p>
+<h2>Examples</h2>
+<p>  iex&gt; ExCloudinary.upload_raw(“/path/to/file”)
+  response</p>
+<h2>Params</h2>
+<ul>
+<li><code class="inline">path</code> - The local path to a file.
+</li>
+<li><code class="inline">public_id</code> - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified.
 </li>
 </ul>
 

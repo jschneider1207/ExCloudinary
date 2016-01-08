@@ -3,6 +3,7 @@ defmodule ExCloudinary do
   A wrapper around the [HTTPoison](https://github.com/edgurgel/httpoison).Base module for the image CDN service [Cloudinary](http://cloudinary.com/).
   """
   alias ExCloudinary.Client
+
   @upload_image_opts ~w"""
     public_id resource_type type tags context transformation format allowed_formats
     eager eager_async proxy notification_url eager_notification_url backup

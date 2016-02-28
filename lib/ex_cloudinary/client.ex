@@ -40,10 +40,14 @@ defmodule ExCloudinary.Client do
     body
     |> Keyword.take(@signed_params)
     |> List.keysort(0)
-    |> URI.encode_query()
+    |> join_query()
     |> append_secret()
     |> hash_signature()
     |> Base.encode16()
+  end
+
+  defp join_query(params) do
+    Enum.map_join(params, "&", fn {k, v} -> "#{k}=#{v}" end)
   end
 
   defp append_secret(signature), do: signature <> get_api_secret

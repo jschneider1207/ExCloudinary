@@ -3,7 +3,7 @@ defmodule ExCloudinary.Mixfile do
 
   def project do
     [app: :ex_cloudinary,
-     version: "0.1.2",
+     version: "0.2.0",
      elixir: "~> 1.2",
      description: description,
      package: package,
@@ -17,10 +17,10 @@ defmodule ExCloudinary.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 0.8.0"},
-     {:poison, "~> 1.5"},
-     {:earmark, "~> 0.1", only: :dev},
-     {:ex_doc, "~> 0.11", only: :dev}]
+    [{:httpoison, "~> 0.8.2"},
+     {:poison, "~> 2.1"},
+     {:earmark, "~> 0.2.1", only: :dev},
+     {:ex_doc, "~> 0.11.4", only: :dev}]
   end
 
   defp description do

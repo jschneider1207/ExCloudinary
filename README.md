@@ -7,7 +7,7 @@ Elixir client for [Cloudinary](http://cloudinary.com/)
 You need to add the following config in your `config.exs`:
 
         config :ex_cloudinary,
-          name: "",
+          cloud_name: "",
           api_key: "",
           api_secret: ""
 

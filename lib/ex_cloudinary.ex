@@ -78,6 +78,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
     Client.post!("image/upload", body)
+    |> decode_as!(UploadResponse)
   end
 
   @doc """
@@ -101,6 +102,7 @@ defmodule ExCloudinary do
   @doc "See `delete_image/2`"
   def delete_image!(public_id, type \\ "upload") do
     Client.post!("image/destroy", [public_id: public_id, type: type])
+    |> decode_as!(DeleteResponse)
   end
 
 
@@ -137,6 +139,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
     Client.post!("image/rename", body)
+    |> decode_as!(RenameResponse)
   end
 
   @doc """
@@ -163,11 +166,12 @@ defmodule ExCloudinary do
 
   @doc "See `upload_raw/2`"
   def upload_raw!(path, public_id \\ nil)
-  def upload_raw!(path, nil) do
-    Client.post!("raw/upload", [file: path])
-  end
-  def upload_raw!(path, public_id) do
-    Client.post!("raw/upload", [file: path, public_id: public_id])
+  def upload_raw!(path, nil), do: do_upload_raw!([file: path])
+  def upload_raw!(path, public_id), do: do_upload_raw!([file: path, public_id: public_id])
+  
+  defp do_upload_raw!(args) do
+    Client.post!("raw/upload", args)
+    |> decode_as!(UploadRawResponse)
   end
 
   @doc """
@@ -207,6 +211,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     Client.post!("image/text", body)
+    |> decode_as!(GenerateTextLayerResponse)
   end
   
   ## Private Helpers
@@ -228,8 +233,9 @@ defmodule ExCloudinary do
   
   defp decode_error!(body) do
     body
-    |> Poison.decode
+    |> Poison.decode!
     |> get_in(["error", "message"])
+    |> raise
   end
   
   ## Responses

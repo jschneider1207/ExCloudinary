@@ -70,7 +70,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
     with {:ok, response} <- Client.post("image/upload", body),
-      do: decode_as(response, UploadResponse)
+      do: decode_as(response, %UploadResponse{})
   end
 
   @doc "See `&upload_image/2`"
@@ -78,7 +78,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
     Client.post!("image/upload", body)
-    |> decode_as!(UploadResponse)
+    |> decode_as!(%UploadResponse{})
   end
 
   @doc """
@@ -96,13 +96,13 @@ defmodule ExCloudinary do
   """
   def delete_image(public_id, type \\ "upload") do
     with {:ok, response} <- Client.post("image/destroy", [public_id: public_id, type: type]),
-      do: decode_as(response, DeleteResponse)
+      do: decode_as(response, %DeleteResponse{})
   end
 
   @doc "See `delete_image/2`"
   def delete_image!(public_id, type \\ "upload") do
     Client.post!("image/destroy", [public_id: public_id, type: type])
-    |> decode_as!(DeleteResponse)
+    |> decode_as!(%DeleteResponse{})
   end
 
 
@@ -131,7 +131,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
     with {:ok, response} <- Client.post("image/rename", body),
-      do: decode_as(response, RenameResponse)
+      do: decode_as(response, %RenameResponse{})
   end
 
   @doc "See `rename_image/3`"
@@ -139,7 +139,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
     Client.post!("image/rename", body)
-    |> decode_as!(RenameResponse)
+    |> decode_as!(%RenameResponse{})
   end
 
   @doc """
@@ -161,7 +161,7 @@ defmodule ExCloudinary do
   
   defp do_upload_raw(args) do
     with {:ok, response} <- Client.post("raw/upload", args),
-      do: decode_as(response, UploadRawResponse)
+      do: decode_as(response, %UploadRawResponse{})
   end
 
   @doc "See `upload_raw/2`"
@@ -171,7 +171,7 @@ defmodule ExCloudinary do
   
   defp do_upload_raw!(args) do
     Client.post!("raw/upload", args)
-    |> decode_as!(UploadRawResponse)
+    |> decode_as!(%UploadRawResponse{})
   end
 
   @doc """
@@ -203,7 +203,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     with {:ok, response} <- Client.post("image/text", body),
-      do: decode_as(response, GenerateTextLayerResponse)
+      do: decode_as(response, %GenerateTextLayerResponse{})
   end
 
   @doc "See `generate_text_layer/2`"
@@ -211,7 +211,7 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     Client.post!("image/text", body)
-    |> decode_as!(GenerateTextLayerResponse)
+    |> decode_as!(%GenerateTextLayerResponse{})
   end
   
   ## Private Helpers
@@ -236,59 +236,5 @@ defmodule ExCloudinary do
     |> Poison.decode!
     |> get_in(["error", "message"])
     |> raise
-  end
-  
-  ## Responses
-  
-  defmodule UploadResponse do
-    defstruct [bytes: 0, created_at: "", etag: "", 
-      format: "", height: 0, original_filename: "", 
-      public_id: "", resource_type: "", secure_url: "", 
-      signature: "", tags: [], type: "", url: "", 
-      version: 0, width: 0]
-    @type t :: %UploadResponse{bytes: integer, created_at: String.t, 
-      etag: String.t, format: String.t, height: integer, original_filename: String.t, 
-      public_id: String.t, resource_type: String.t, secure_url: String.t, 
-      signature: String.t, tags: [String.t], type: String.t, url: String.t, 
-      version: integer, width: integer}
-  end
-
-  defmodule DeleteResponse do
-    defstruct result: ""
-    @type t :: %DeleteResponse{result: String.t}
-  end
-  
-  defmodule RenameResponse do
-    defstruct [bytes: 0, created_at: "", format: "", 
-      height: 0, public_id: "", resource_type: "", 
-      secure_url: "", signature: "", tags: [], type: "", 
-      url: "", version: 0, width: 0]
-    @type t :: %RenameResponse{bytes: integer, created_at: String.t, 
-      format: String.t, height: integer, public_id: String.t, 
-      resource_type: String.t, secure_url: String.t, 
-      signature: String.t, tags: [String.t], type: String.t, 
-      url: String.t, version: integer, width: integer}
-  end
-  
-  defmodule UploadRawResponse do
-    defstruct [bytes: 0, created_at: "", etag: "", 
-      original_filename: "", public_id: "", resource_type: "", 
-      secure_url: "", signature: "", tags: [], type: "", 
-      url: "", version: 0]
-    @type t :: %UploadRawResponse{bytes: integer, created_at: String.t, 
-      etag: String.t, original_filename: String.t, public_id: String.t, 
-      resource_type: String.t, secure_url: String.t, signature: String.t, 
-      tags: [String.t], type: String.t, url: String.t, version: integer, }
-  end
-  
-  defmodule GenerateTextLayerResponse do
-    defstruct [bytes: 0, created_at: "", 
-      format: "", height: 0, public_id: "", resource_type: "", 
-      secure_url: "", signature: "", tags: [], type: "", 
-      url: "", version: 0, width: 0]
-    @type t :: %GenerateTextLayerResponse{bytes: integer, created_at: String.t, 
-      format: String.t, height: integer, public_id: String.t, resource_type: String.t, 
-      secure_url: String.t, signature: String.t, tags: [String.t], 
-      type: String.t, url: String.t, version: integer, width: integer}
-  end
+  end 
 end

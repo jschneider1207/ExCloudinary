@@ -2,7 +2,7 @@ defmodule ExCloudinary do
   @moduledoc """
   A wrapper around the [HTTPoison](https://github.com/edgurgel/httpoison).Base module for the image CDN service [Cloudinary](http://cloudinary.com/).
   """
-  alias ExCloudinary.Client
+  alias ExCloudinary.{Client, UploadResponse, DeleteResponse, RenameResponse, UploadRawResponse, GenerateTextLayerResponse}
 
   @upload_image_opts ~w"""
     public_id resource_type type tags context transformation format allowed_formats
@@ -69,7 +69,8 @@ defmodule ExCloudinary do
   def upload_image(path, opts \\ []) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
-    Client.post("image/upload", body)
+    with {:ok, response} <- Client.post("image/upload", body),
+      do: decode_as(response, UploadResponse)
   end
 
   @doc "See `&upload_image/2`"
@@ -93,7 +94,8 @@ defmodule ExCloudinary do
     * `type` - (optional) The type of the image you want to delete. Default: `upload`
   """
   def delete_image(public_id, type \\ "upload") do
-    Client.post("image/destroy", [public_id: public_id, type: type])
+    with {:ok, response} <- Client.post("image/destroy", [public_id: public_id, type: type]),
+      do: decode_as(response, DeleteResponse)
   end
 
   @doc "See `delete_image/2`"
@@ -126,7 +128,8 @@ defmodule ExCloudinary do
   def rename_image(from_public_id, to_public_id, opts \\ []) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
-    Client.post("image/rename", body)
+    with {:ok, response} <- Client.post("image/rename", body),
+      do: decode_as(response, RenameResponse)
   end
 
   @doc "See `rename_image/3`"
@@ -150,11 +153,12 @@ defmodule ExCloudinary do
     * `public_id` - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified.
   """
   def upload_raw(path, public_id \\ nil)
-  def upload_raw(path, nil) do
-    Client.post("raw/upload", [file: path])
-  end
-  def upload_raw(path, public_id) do
-    Client.post("raw/upload", [file: path, public_id: public_id])
+  def upload_raw(path, nil), do: do_upload_raw([file: path])
+  def upload_raw(path, public_id), do: do_upload_raw([file: path, public_id: public_id])
+  
+  defp do_upload_raw(args) do
+    with {:ok, response} <- Client.post("raw/upload", args),
+      do: decode_as(response, UploadRawResponse)
   end
 
   @doc "See `upload_raw/2`"
@@ -194,7 +198,8 @@ defmodule ExCloudinary do
   def generate_text_layer(text, opts \\ []) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
-    Client.post("image/text", body)
+    with {:ok, response} <- Client.post("image/text", body),
+      do: decode_as(response, GenerateTextLayerResponse)
   end
 
   @doc "See `generate_text_layer/2`"
@@ -202,5 +207,82 @@ defmodule ExCloudinary do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     Client.post!("image/text", body)
+  end
+  
+  ## Private Helpers
+  
+  defp decode_as(%HTTPoison.Response{body: body, status_code: 200}, as), do: Poison.decode(body, as: as)
+  defp decode_as(%HTTPoison.Response{body: body, status_code: 400}, _as), do: decode_error(body)
+  defp decode_as(%HTTPoison.Response{body: body, status_code: 404}, _as), do: decode_error(body)
+  defp decode_as(_resp, _as), do: {:error, :unknown_cloudinary_response}
+  
+  defp decode_error(body) do
+    with {:ok, json} <- Poison.decode(body),
+      do: {:error, get_in(json, ["error", "message"])}
+  end
+  
+  defp decode_as!(%HTTPoison.Response{body: body, status_code: 200}, as), do: Poison.decode!(body, as: as)  
+  defp decode_as!(%HTTPoison.Response{body: body, status_code: 400}, _as), do: decode_error!(body)
+  defp decode_as!(%HTTPoison.Response{body: body, status_code: 404}, _as), do: decode_error!(body)
+  defp decode_as!(_resp, _as), do: raise "unknown cloudinary response"
+  
+  defp decode_error!(body) do
+    body
+    |> Poison.decode
+    |> get_in(["error", "message"])
+  end
+  
+  ## Responses
+  
+  defmodule UploadResponse do
+    defstruct [bytes: 0, created_at: "", etag: "", 
+      format: "", height: 0, original_filename: "", 
+      public_id: "", resource_type: "", secure_url: "", 
+      signature: "", tags: [], type: "", url: "", 
+      version: 0, width: 0]
+    @type t :: %UploadResponse{bytes: integer, created_at: String.t, 
+      etag: String.t, format: String.t, height: integer, original_filename: String.t, 
+      public_id: String.t, resource_type: String.t, secure_url: String.t, 
+      signature: String.t, tags: [String.t], type: String.t, url: String.t, 
+      version: integer, width: integer}
+  end
+
+  defmodule DeleteResponse do
+    defstruct result: ""
+    @type t :: %DeleteResponse{result: String.t}
+  end
+  
+  defmodule RenameResponse do
+    defstruct [bytes: 0, created_at: "", format: "", 
+      height: 0, public_id: "", resource_type: "", 
+      secure_url: "", signature: "", tags: [], type: "", 
+      url: "", version: 0, width: 0]
+    @type t :: %RenameResponse{bytes: integer, created_at: String.t, 
+      format: String.t, height: integer, public_id: String.t, 
+      resource_type: String.t, secure_url: String.t, 
+      signature: String.t, tags: [String.t], type: String.t, 
+      url: String.t, version: integer, width: integer}
+  end
+  
+  defmodule UploadRawResponse do
+    defstruct [bytes: 0, created_at: "", etag: "", 
+      original_filename: "", public_id: "", resource_type: "", 
+      secure_url: "", signature: "", tags: [], type: "", 
+      url: "", version: 0]
+    @type t :: %UploadRawResponse{bytes: integer, created_at: String.t, 
+      etag: String.t, original_filename: String.t, public_id: String.t, 
+      resource_type: String.t, secure_url: String.t, signature: String.t, 
+      tags: [String.t], type: String.t, url: String.t, version: integer, }
+  end
+  
+  defmodule GenerateTextLayerResponse do
+    defstruct [bytes: 0, created_at: "", 
+      format: "", height: 0, public_id: "", resource_type: "", 
+      secure_url: "", signature: "", tags: [], type: "", 
+      url: "", version: 0, width: 0]
+    @type t :: %GenerateTextLayerResponse{bytes: integer, created_at: String.t, 
+      format: String.t, height: integer, public_id: String.t, resource_type: String.t, 
+      secure_url: String.t, signature: String.t, tags: [String.t], 
+      type: String.t, url: String.t, version: integer, width: integer}
   end
 end

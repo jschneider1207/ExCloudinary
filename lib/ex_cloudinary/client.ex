@@ -7,7 +7,8 @@ defmodule ExCloudinary.Client do
     resource_type tags timestamp to_public_id text transformation type context allowed_formats proxy
     notification_url eager_notification_url backup return_delete_token faces exif colors image_metadata phash
     invalidate use_filename unique_filename folder overwrite discard_original_filename face_coordinates
-    custom_coordinates raw_convert auto_tagging background_removal moderation upload_preset)a
+    custom_coordinates raw_convert auto_tagging background_removal moderation upload_preset
+    font_family font_size font_color font_weight font_style background opacity text_decoration)a
   @cloud_name Application.get_env(:ex_cloudinary, :cloud_name)
   @api_key Application.get_env(:ex_cloudinary, :api_key)
   @api_secret Application.get_env(:ex_cloudinary, :api_secret, <<0>>)

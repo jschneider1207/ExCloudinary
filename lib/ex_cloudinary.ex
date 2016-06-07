@@ -66,15 +66,15 @@ defmodule ExCloudinary do
     * `moderation` - Set to `manual` to add the uploaded image to a queue of pending moderation images. Set to `webpurify` to automatically moderate the uploaded image using the WebPurify Image Moderation add-on.
     * `upload_preset` - Name of an upload preset that you defined for your Cloudinary account. An upload preset consists of upload parameters centrally managed using the Admin API or from the settings page of the management console. An upload preset may be marked as `unsigned`, which allows unsigned uploading directly from the browser and restrict the directly allowed parameters to: public_id, folder, tags, context, face_coordinates and custom_coordinates.
   """
-  def upload_image(path, opts \\ []) do
+  def upload_image(path, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
-    with {:ok, response} <- Client.post("image/upload", body),
+    with {:ok, response} <- Client.post("image/upload", body, [], [timeout: timeout]),
       do: decode_as(response, %UploadResponse{})
   end
 
-  @doc "See `&upload_image/2`"
-  def upload_image!(path, opts \\ []) do
+  @doc "See `upload_image/2`"
+  def upload_image!(path, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
     Client.post!("image/upload", body)
@@ -94,13 +94,13 @@ defmodule ExCloudinary do
     * `public_id` - The identifier of the uploaded image.
     * `type` - (optional) The type of the image you want to delete. Default: `upload`
   """
-  def delete_image(public_id, type \\ "upload") do
-    with {:ok, response} <- Client.post("image/destroy", [public_id: public_id, type: type]),
+  def delete_image(public_id, type \\ "upload", timeout \\ 5000) do
+    with {:ok, response} <- Client.post("image/destroy", [public_id: public_id, type: type], [], [timeout: timeout]),
       do: decode_as(response, %DeleteResponse{})
   end
 
   @doc "See `delete_image/2`"
-  def delete_image!(public_id, type \\ "upload") do
+  def delete_image!(public_id, type \\ "upload", timeout \\ 5000) do
     Client.post!("image/destroy", [public_id: public_id, type: type])
     |> decode_as!(%DeleteResponse{})
   end
@@ -127,15 +127,15 @@ defmodule ExCloudinary do
     * `overwrite` - (boolean) Whether to overwrite an existing image with the target public ID. Default: false.
 
   """
-  def rename_image(from_public_id, to_public_id, opts \\ []) do
+  def rename_image(from_public_id, to_public_id, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
-    with {:ok, response} <- Client.post("image/rename", body),
+    with {:ok, response} <- Client.post("image/rename", body, [], [timeout: timeout]),
       do: decode_as(response, %RenameResponse{})
   end
 
   @doc "See `rename_image/3`"
-  def rename_image!(from_public_id, to_public_id, opts \\ []) do
+  def rename_image!(from_public_id, to_public_id, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
     Client.post!("image/rename", body)
@@ -155,21 +155,21 @@ defmodule ExCloudinary do
     * `path` - The local path to a file.
     * `public_id` - The identifier that is used for accessing the uploaded resource. A randomly generated ID is assigned if not specified.
   """
-  def upload_raw(path, public_id \\ nil)
-  def upload_raw(path, nil), do: do_upload_raw([file: path])
-  def upload_raw(path, public_id), do: do_upload_raw([file: path, public_id: public_id])
+  def upload_raw(path, public_id \\ nil, timeout \\ 5000)
+  def upload_raw(path, nil, timeout), do: do_upload_raw([file: path], timeout)
+  def upload_raw(path, public_id, timeout), do: do_upload_raw([file: path, public_id: public_id], timeout)
   
-  defp do_upload_raw(args) do
-    with {:ok, response} <- Client.post("raw/upload", args),
+  defp do_upload_raw(args, timeout) do
+    with {:ok, response} <- Client.post("raw/upload", args, [], [timeout: timeout]),
       do: decode_as(response, %UploadRawResponse{})
   end
 
   @doc "See `upload_raw/2`"
-  def upload_raw!(path, public_id \\ nil)
-  def upload_raw!(path, nil), do: do_upload_raw!([file: path])
-  def upload_raw!(path, public_id), do: do_upload_raw!([file: path, public_id: public_id])
+  def upload_raw!(path, public_id \\ nil, timeout \\ 5000)
+  def upload_raw!(path, nil, timeout), do: do_upload_raw!([file: path], timeout)
+  def upload_raw!(path, public_id, timeout), do: do_upload_raw!([file: path, public_id: public_id], timeout)
   
-  defp do_upload_raw!(args) do
+  defp do_upload_raw!(args, timeout) do
     Client.post!("raw/upload", args)
     |> decode_as!(%UploadRawResponse{})
   end
@@ -199,15 +199,15 @@ defmodule ExCloudinary do
     * `opacity` - Text opacity value between 0 (invisible) and 100. Default: 100.
     * `text_decoration` - Optionally add an `underline` to the text. Default: `none`.
   """
-  def generate_text_layer(text, opts \\ []) do
+  def generate_text_layer(text, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
-    with {:ok, response} <- Client.post("image/text", body),
+    with {:ok, response} <- Client.post("image/text", body, [], [timeout: timeout]),
       do: decode_as(response, %GenerateTextLayerResponse{})
   end
 
   @doc "See `generate_text_layer/2`"
-  def generate_text_layer!(text, opts \\ []) do
+  def generate_text_layer!(text, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
     Client.post!("image/text", body)

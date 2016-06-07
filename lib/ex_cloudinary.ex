@@ -77,7 +77,7 @@ defmodule ExCloudinary do
   def upload_image!(path, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @upload_image_opts)
             |> Keyword.put(:file, path)
-    Client.post!("image/upload", body)
+    Client.post!("image/upload", body, [], [timeout: timeout])
     |> decode_as!(%UploadResponse{})
   end
 
@@ -101,7 +101,7 @@ defmodule ExCloudinary do
 
   @doc "See `delete_image/2`"
   def delete_image!(public_id, type \\ "upload", timeout \\ 5000) do
-    Client.post!("image/destroy", [public_id: public_id, type: type])
+    Client.post!("image/destroy", [public_id: public_id, type: type], [], [timeout: timeout])
     |> decode_as!(%DeleteResponse{})
   end
 
@@ -138,7 +138,7 @@ defmodule ExCloudinary do
   def rename_image!(from_public_id, to_public_id, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, [:type, :overwrite])
             |> Keyword.merge([from_public_id: from_public_id, to_public_id: to_public_id])
-    Client.post!("image/rename", body)
+    Client.post!("image/rename", body, [], [timeout: timeout])
     |> decode_as!(%RenameResponse{})
   end
 
@@ -170,7 +170,7 @@ defmodule ExCloudinary do
   def upload_raw!(path, public_id, timeout), do: do_upload_raw!([file: path, public_id: public_id], timeout)
   
   defp do_upload_raw!(args, timeout) do
-    Client.post!("raw/upload", args)
+    Client.post!("raw/upload", args, [], [timeout: timeout])
     |> decode_as!(%UploadRawResponse{})
   end
 
@@ -210,7 +210,7 @@ defmodule ExCloudinary do
   def generate_text_layer!(text, opts \\ [], timeout \\ 5000) do
     body = Keyword.take(opts, @generate_text_layer_opts)
             |> Keyword.put(:text, text)
-    Client.post!("image/text", body)
+    Client.post!("image/text", body, [], [timeout: timeout])
     |> decode_as!(%GenerateTextLayerResponse{})
   end
   

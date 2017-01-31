@@ -3,24 +3,23 @@ defmodule ExCloudinary.Mixfile do
 
   def project do
     [app: :ex_cloudinary,
-     version: "0.2.2",
-     elixir: "~> 1.2",
-     description: description,
-     package: package,
+     version: "0.3.0",
+     elixir: "~> 1.4",
+     description: description(),
+     package: package(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   def application do
-    [applications: [:logger, :httpoison]]
+    [extra_applications: [:logger]]
   end
 
   defp deps do
-    [{:httpoison, "~> 0.8.2"},
-     {:poison, "~> 2.1"},
-     {:earmark, "~> 0.2.1", only: :dev},
-     {:ex_doc, "~> 0.11.4", only: :dev}]
+    [{:httpoison, "~> 0.11.0"},
+     {:poison, "~> 3.1"},
+     {:ex_doc, "~> 0.14.5", only: :dev}]
   end
 
   defp description do

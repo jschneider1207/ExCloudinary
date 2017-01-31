@@ -2,6 +2,6 @@
 /cover
 /deps
 /doc
-config.exs
 erl_crash.dump
 *.ez
+secret.exs

@@ -1,5 +1,5 @@
 defmodule ExCloudinary.Client do
-  @moduledoc false  
+  @moduledoc false
   use HTTPoison.Base
   @after_compile __MODULE__
   @base_url ~S(https://api.cloudinary.com/v1_1)
@@ -12,7 +12,7 @@ defmodule ExCloudinary.Client do
   @cloud_name Application.get_env(:ex_cloudinary, :cloud_name)
   @api_key Application.get_env(:ex_cloudinary, :api_key)
   @api_secret Application.get_env(:ex_cloudinary, :api_secret, <<0>>)
-  
+
   ## HTTPoison.Base extensions
 
   @doc false
@@ -21,7 +21,7 @@ defmodule ExCloudinary.Client do
   @doc false
   def process_request_body(body) do
     body
-    |> Keyword.merge([api_key: @api_key, timestamp: get_timestamp])
+    |> Keyword.merge([api_key: @api_key, timestamp: get_timestamp()])
     |> sign_body()
     |> multipart_encode()
   end
@@ -30,7 +30,7 @@ defmodule ExCloudinary.Client do
   #def process_response_body(body), do: Poison.decode!(body)
 
   ## Private helpers
-  
+
   defp get_timestamp, do: :os.system_time(:seconds) |> Integer.to_string()
 
   defp sign_body(body) do
@@ -61,25 +61,25 @@ defmodule ExCloudinary.Client do
 
   defp multipart_encode(body) do
     body = Enum.map(body, fn {:file, path} -> {:file, path}
-                              {key, value} -> {to_string(key), value} end)
+                             {key, value}  -> {to_string(key), value} end)
     {:multipart, body}
   end
-  
-  def __after_compile__(env, _bytecode) do
+
+  def __after_compile__(_env, _bytecode) do
     if is_nil(@cloud_name), do: raise error_msg("cloud name")
     if is_nil(@api_key), do: raise error_msg("api_key")
     if @api_secret == <<0>>, do: raise error_msg("api_secret")
   end
-  
+
   defp error_msg(missing) do
-  ~s"""
-  Missing config for `#{missing}`.
-  
-  Ensure your `config.exs` is set according to the following:
-    config :ex_cloudinary,
-      cloud_name: "",
-      api_key: "",
-      api_secret: ""
-  """
+    ~s"""
+    Missing config for `#{missing}`.
+
+    Ensure your `config.exs` is set according to the following:
+      config :ex_cloudinary,
+        cloud_name: "",
+        api_key: "",
+        api_secret: ""
+    """
   end
 end
